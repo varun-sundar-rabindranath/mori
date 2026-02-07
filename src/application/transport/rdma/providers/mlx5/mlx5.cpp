@@ -409,6 +409,12 @@ void Mlx5QpContainer::ModifyInit2Rtr(const RdmaEndpointHandle& local_handle,
            sizeof(remote_handle.eth.mac));
     DEVX_SET(qpc, qpc, primary_address_path.hop_limit, 64);
     DEVX_SET(qpc, qpc, primary_address_path.src_addr_index, local_handle.eth.gidIdx);
+
+    // setting traffic class to 41
+    DEVX_SET(qpc, qpc, primary_address_path.tclass, 40);
+    DEVX_SET(qpc, qpc, primary_address_path.dscp, 10);
+    DEVX_SET(qpc, qpc, primary_address_path.ecn, 1);
+
     // Use shared UDP sport configuration with qpId-based selection
     uint16_t selected_udp_sport = device_context->GetUdpSport(qpId);
     DEVX_SET(qpc, qpc, primary_address_path.udp_sport, selected_udp_sport | 0xC000);
